@@ -3,11 +3,23 @@ package github.hellocsl.smartmonitor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import github.hellocsl.smartmonitor.utils.AppUtils;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AppApplication.postThread(new Runnable() {
+            @Override
+            public void run() {
+                if (!VideoAccessibilityService.sIsEnable && AppUtils.isSupportBoostAccessibilityService()) {
+                    AppUtils.gotoAccessibilitySettings(AppApplication.getContext());
+                }
+            }
+        });
     }
+
+
 }
