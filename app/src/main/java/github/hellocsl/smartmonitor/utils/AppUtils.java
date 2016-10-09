@@ -39,7 +39,7 @@ public class AppUtils {
 
     public static void acquireTimedWakeLock(long timeout, String tag) {
         PowerManager pm = (PowerManager) sAppContext.getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, tag);
+        PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.ON_AFTER_RELEASE | PowerManager.ACQUIRE_CAUSES_WAKEUP, tag);
         wakeLock.acquire(timeout);
     }
 

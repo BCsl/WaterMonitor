@@ -16,7 +16,6 @@ import github.hellocsl.smartmonitor.utils.AppUtils;
 import github.hellocsl.smartmonitor.utils.Constant;
 import github.hellocsl.smartmonitor.utils.Privacy;
 
-import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_CLICKED;
 import static android.view.accessibility.AccessibilityEvent.TYPE_WINDOWS_CHANGED;
 import static android.view.accessibility.AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED;
 
@@ -65,7 +64,7 @@ public class VideoAccessibilityService extends AccessibilityService {
         }
         sIsEnable = true;
         AccessibilityServiceInfo info = new AccessibilityServiceInfo();
-        info.eventTypes = TYPE_WINDOW_CONTENT_CHANGED | TYPE_VIEW_CLICKED | TYPE_WINDOWS_CHANGED;
+        info.eventTypes = TYPE_WINDOW_CONTENT_CHANGED | TYPE_WINDOWS_CHANGED;
 
         // If you only want this service to work with specific applications, set their
         // package names here.  Otherwise, when the service is activated, it will listen
@@ -114,17 +113,21 @@ public class VideoAccessibilityService extends AccessibilityService {
             }
         } else if (isQQChat(nodeInfo) && isNotVideoChat(nodeInfo) && mState < STATE_TRACING_VIDEO_PANEL) {
             setState(STATE_TRACING_VIDEO_PANEL);
-            if (preStartVideoChat(nodeInfo)) {
-                setState(STATE_TRACING_VIDEO_BTN);  //进入下个状态
-            } else {
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "handleWindowChange: STATE_TRACING_VIDEO_PANEL");
+            }
+            if (!preStartVideoChat(nodeInfo)) {
                 setState(STATE_STARTING_QQ);   //回滚到上个状态
             }
-        } else if (mState < STATE_VIDEO_PLAYING) {
-            setState(STATE_VIDEO_PLAYING);
+        } else if (isQQChat(nodeInfo) && mState < STATE_TRACING_VIDEO_BTN) {
+            setState(STATE_TRACING_VIDEO_BTN);
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "handleWindowChange: STATE_VIDEO_PLAYING");
+            }
             if (startVideoChat(nodeInfo)) {
                 setState(STATE_VIDEO_PLAYING);
             } else {
-                setState(STATE_TRACING_VIDEO_BTN);
+                setState(STATE_STARTING_QQ);
             }
         }
     }
@@ -186,9 +189,6 @@ public class VideoAccessibilityService extends AccessibilityService {
      * @return
      */
     private boolean isQQChat(AccessibilityNodeInfo nodeInfo) {
-        if (BuildConfig.DEBUG) {
-            Log.v(TAG, "isQQChat: " + nodeInfo.getPackageName().toString());
-        }
         List<AccessibilityNodeInfo> sendNodes = nodeInfo.findAccessibilityNodeInfosByText("发送");
         if (!sendNodes.isEmpty() && Constant.QQ_PKG.equals(nodeInfo.getPackageName().toString())) {
             return true;
