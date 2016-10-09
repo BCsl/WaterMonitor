@@ -10,5 +10,11 @@ public interface Constant {
 
     String DIALER = "com.google.android.dialer";
 
+    String MONITOR_TAG = "SmartMonitor";
+
+    String MEIZU_IN_CALL_PKG = "com.android.incallui";
+
+
+
 
 }

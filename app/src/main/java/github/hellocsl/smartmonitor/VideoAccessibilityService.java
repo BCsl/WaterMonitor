@@ -9,12 +9,13 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import github.hellocsl.smartmonitor.state.IMonitorService;
-import github.hellocsl.smartmonitor.state.Impl.QQChatState;
+import github.hellocsl.smartmonitor.state.Impl.IdleState;
 import github.hellocsl.smartmonitor.state.MonitorState;
 import github.hellocsl.smartmonitor.utils.Constant;
 
 import static android.view.accessibility.AccessibilityEvent.TYPE_WINDOWS_CHANGED;
 import static android.view.accessibility.AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED;
+import static android.view.accessibility.AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED;
 
 
 /**
@@ -40,21 +41,21 @@ public class VideoAccessibilityService extends AccessibilityService implements I
         }
         sIsEnable = true;
         AccessibilityServiceInfo info = new AccessibilityServiceInfo();
-        info.eventTypes = TYPE_WINDOW_CONTENT_CHANGED | TYPE_WINDOWS_CHANGED;
+        info.eventTypes = TYPE_WINDOW_CONTENT_CHANGED | TYPE_WINDOWS_CHANGED | TYPE_WINDOW_STATE_CHANGED;
 
         // If you only want this service to work with specific applications, set their
         // package names here.  Otherwise, when the service is activated, it will listen
         // to events from all applications.
-        info.packageNames = new String[]{Constant.QQ_PKG, Constant.DIALER};
+        info.packageNames = new String[]{Constant.QQ_PKG, Constant.DIALER, Constant.MEIZU_IN_CALL_PKG};
 
         info.feedbackType = AccessibilityServiceInfo.FEEDBACK_SPOKEN;
 //        info.flags = AccessibilityServiceInfo.DEFAULT;
         info.notificationTimeout = 100;
 
         this.setServiceInfo(info);
-//        setState(new IdleState(this));
+        setState(new IdleState(this));
         // FIXME: 16-10-9 for qqChat
-        setState(new QQChatState(this));
+//        setState(new QQChatState(this));
     }
 
     @Override

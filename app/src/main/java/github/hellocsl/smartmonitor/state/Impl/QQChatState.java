@@ -15,6 +15,7 @@ import github.hellocsl.smartmonitor.utils.Constant;
 
 
 /**
+ * QQ聊天面板状态，监测到+号并点击
  * Created by chensuilun on 16-10-9.
  */
 public class QQChatState extends MonitorState {
@@ -33,8 +34,8 @@ public class QQChatState extends MonitorState {
             }
             return;
         }
-        if(BuildConfig.DEBUG){
-            Log.v(TAG,"handle:");
+        if (BuildConfig.DEBUG) {
+            Log.v(TAG, "handle:");
         }
         if (isQQChat(nodeInfo) && isNotVideoChat(nodeInfo)) {
             if (!preStartVideoChat(nodeInfo)) {
@@ -42,6 +43,8 @@ public class QQChatState extends MonitorState {
             } else {
                 mContextService.setState(new StartVideoState(mContextService));
             }
+        } else {
+            // TODO: 16-10-9  自动登录等其他处理
         }
     }
 

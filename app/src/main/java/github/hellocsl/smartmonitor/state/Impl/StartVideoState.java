@@ -14,6 +14,7 @@ import github.hellocsl.smartmonitor.state.MonitorState;
 import static github.hellocsl.smartmonitor.utils.AppUtils.isListEmpty;
 
 /**
+ * 视频聊天状态，找到视频电话按钮并点击
  * Created by chensuilun on 16-10-9.
  */
 public class StartVideoState extends MonitorState {

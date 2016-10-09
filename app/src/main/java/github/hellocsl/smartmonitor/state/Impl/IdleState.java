@@ -8,7 +8,7 @@ import github.hellocsl.smartmonitor.BuildConfig;
 import github.hellocsl.smartmonitor.state.IMonitorService;
 import github.hellocsl.smartmonitor.state.MonitorState;
 import github.hellocsl.smartmonitor.utils.AppUtils;
-import github.hellocsl.smartmonitor.utils.Privacy;
+import github.hellocsl.smartmonitor.utils.Constant;
 
 /**
  * 初始状态，等待来电处理
@@ -30,14 +30,17 @@ public class IdleState extends MonitorState {
             }
             return;
         }
-        if(BuildConfig.DEBUG){
-            Log.v(TAG,"handle:");
+        if (BuildConfig.DEBUG) {
+            Log.v(TAG, "handle:");
         }
         if (isCallComing(nodeInfo)) {
+            if (BuildConfig.DEBUG) {
+                Log.v(TAG, "handle: call");
+            }
             handOffCall(nodeInfo);
 //            AppUtils.acquireTimedWakeLock(5000, "SmartMonitor");
-            AppUtils.openQQChat(Privacy.QQ_NUMBER);
-            mContextService.setState(new QQChatState(mContextService));
+//            AppUtils.openQQChat(Privacy.QQ_NUMBER);
+//            mContextService.setState(new QQChatState(mContextService));
         }
     }
 
@@ -51,9 +54,17 @@ public class IdleState extends MonitorState {
 
     /**
      * @param nodeInfo
-     * @return 是否在来电界面
+     * @return 是否在来电界面 (仅适配魅族)
      */
     private boolean isCallComing(AccessibilityNodeInfo nodeInfo) {
-        return true;
+        if (BuildConfig.DEBUG) {
+            Log.v(TAG, "isCallComing: " + nodeInfo.getPackageName());
+        }
+        if (Constant.MEIZU_IN_CALL_PKG.equals(nodeInfo.getPackageName())
+                && !AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText("右滑接听，左滑挂断"))
+                && !AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText(Constant.MONITOR_TAG))) {
+            return true;
+        }
+        return false;
     }
 }
