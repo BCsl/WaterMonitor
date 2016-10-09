@@ -10,6 +10,8 @@ import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
 
+import java.util.List;
+
 import github.hellocsl.smartmonitor.AppApplication;
 
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
@@ -68,5 +70,10 @@ public class AppUtils {
      */
     public static boolean isSupportBoostAccessibilityService() {
         return Build.VERSION.SDK_INT >= JELLY_BEAN;
+    }
+
+
+    public static boolean isListEmpty(List list) {
+        return list == null || list.isEmpty();
     }
 }
