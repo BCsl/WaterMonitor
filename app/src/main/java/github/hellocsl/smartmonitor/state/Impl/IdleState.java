@@ -9,6 +9,7 @@ import github.hellocsl.smartmonitor.state.IMonitorService;
 import github.hellocsl.smartmonitor.state.MonitorState;
 import github.hellocsl.smartmonitor.utils.AppUtils;
 import github.hellocsl.smartmonitor.utils.Constant;
+import github.hellocsl.smartmonitor.utils.TelephoneHelper;
 
 /**
  * 初始状态，等待来电处理
@@ -49,8 +50,9 @@ public class IdleState extends MonitorState {
      * @param nodeInfo
      */
     private void handOffCall(AccessibilityNodeInfo nodeInfo) {
-
+        TelephoneHelper.killCall();
     }
+
 
     /**
      * @param nodeInfo
@@ -60,9 +62,10 @@ public class IdleState extends MonitorState {
         if (BuildConfig.DEBUG) {
             Log.v(TAG, "isCallComing: " + nodeInfo.getPackageName());
         }
-        if (Constant.MEIZU_IN_CALL_PKG.equals(nodeInfo.getPackageName())
-                && !AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText("右滑接听，左滑挂断"))
-                && !AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText(Constant.MONITOR_TAG))) {
+//        if (Constant.MEIZU_IN_CALL_PKG.equals(nodeInfo.getPackageName())
+//                && !AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText("右滑接听，左滑挂断"))
+//                && !AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText(Constant.MONITOR_TAG))) {
+        if (!AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText(Constant.MONITOR_TAG))) {
             return true;
         }
         return false;
