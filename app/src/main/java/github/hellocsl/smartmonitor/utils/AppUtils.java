@@ -28,7 +28,7 @@ public class AppUtils {
      * @param qqNumber
      */
     public static void openQQChat(String qqNumber) {
-        String url = "mqqwpa://im/chat?chat_type=wpa&uin=" + qqNumber;
+        String url = "mqqwpa://im/chat?chat_type=wpa&uin=" + qqNumber+"&version=1";
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
