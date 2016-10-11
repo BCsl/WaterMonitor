@@ -9,6 +9,8 @@ import github.hellocsl.smartmonitor.state.IMonitorService;
 import github.hellocsl.smartmonitor.state.MonitorState;
 import github.hellocsl.smartmonitor.utils.AppUtils;
 import github.hellocsl.smartmonitor.utils.Constant;
+import github.hellocsl.smartmonitor.utils.Privacy;
+import github.hellocsl.smartmonitor.utils.RootCmd;
 import github.hellocsl.smartmonitor.utils.TelephoneHelper;
 
 /**
@@ -39,9 +41,10 @@ public class IdleState extends MonitorState {
                 Log.v(TAG, "handle: call");
             }
             handOffCall(nodeInfo);
+            unlockScreen(nodeInfo);
 //            AppUtils.acquireTimedWakeLock(5000, "SmartMonitor");
-//            AppUtils.openQQChat(Privacy.QQ_NUMBER);
-//            mContextService.setState(new QQChatState(mContextService));
+            AppUtils.openQQChat(Privacy.QQ_NUMBER);
+            mContextService.setState(new QQChatState(mContextService));
         }
     }
 
@@ -51,6 +54,21 @@ public class IdleState extends MonitorState {
      */
     private void handOffCall(AccessibilityNodeInfo nodeInfo) {
         TelephoneHelper.killCall();
+    }
+
+    /**
+     * 解锁魅族
+     * @param nodeInfo
+     */
+    private void unlockScreen(AccessibilityNodeInfo nodeInfo) {
+        RootCmd.execRootCmd("input keyevent 3");
+        RootCmd.execRootCmd("input swipe 655 1774 655 874");
+        RootCmd.execRootCmd("sleep 1 && input text 0");
+        RootCmd.execRootCmd("sleep 0.1 && input text 0");
+        RootCmd.execRootCmd("sleep 0.1 && input text 0");
+        RootCmd.execRootCmd("sleep 0.1 && input text 0");
+        RootCmd.execRootCmd("sleep 0.1 && input keyevent 66");
+//        RootCmd.execRootCmd(UNLOCK);
     }
 
 
