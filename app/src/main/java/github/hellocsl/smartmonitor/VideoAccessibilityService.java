@@ -13,6 +13,7 @@ import github.hellocsl.smartmonitor.state.Impl.IdleState;
 import github.hellocsl.smartmonitor.state.MonitorState;
 import github.hellocsl.smartmonitor.utils.Constant;
 
+import static android.view.accessibility.AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED;
 import static android.view.accessibility.AccessibilityEvent.TYPE_WINDOWS_CHANGED;
 import static android.view.accessibility.AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED;
 import static android.view.accessibility.AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED;
@@ -41,12 +42,12 @@ public class VideoAccessibilityService extends AccessibilityService implements I
         }
         sIsEnable = true;
         AccessibilityServiceInfo info = new AccessibilityServiceInfo();
-        info.eventTypes = TYPE_WINDOW_CONTENT_CHANGED | TYPE_WINDOWS_CHANGED | TYPE_WINDOW_STATE_CHANGED;
+        info.eventTypes = TYPE_WINDOW_CONTENT_CHANGED | TYPE_NOTIFICATION_STATE_CHANGED | TYPE_WINDOWS_CHANGED | TYPE_WINDOW_STATE_CHANGED;
 
         // If you only want this service to work with specific applications, set their
         // package names here.  Otherwise, when the service is activated, it will listen
         // to events from all applications.
-        info.packageNames = new String[]{Constant.QQ_PKG, Constant.DIALER, Constant.MEIZU_IN_CALL_PKG};
+        info.packageNames = new String[]{Constant.QQ_PKG, Constant.DIALER, Constant.MEIZU_IN_CALL_PKG, Constant.N5_HOME_SCREEN};
 
         info.feedbackType = AccessibilityServiceInfo.FEEDBACK_SPOKEN;
 //        info.flags = AccessibilityServiceInfo.DEFAULT;

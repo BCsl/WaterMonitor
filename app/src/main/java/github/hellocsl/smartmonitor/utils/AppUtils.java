@@ -1,6 +1,7 @@
 package github.hellocsl.smartmonitor.utils;
 
 import android.app.Activity;
+import android.app.KeyguardManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import github.hellocsl.smartmonitor.AppApplication;
 
+import static android.content.Context.KEYGUARD_SERVICE;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
 import static github.hellocsl.smartmonitor.AppApplication.sAppContext;
 
@@ -25,11 +27,14 @@ public class AppUtils {
 
     /**
      * 打开QQ聊天界面
+     *
      * @param qqNumber
      */
     public static void openQQChat(String qqNumber) {
-        String url = "mqqwpa://im/chat?chat_type=wpa&uin=" + qqNumber+"&version=1";
+        String url = "mqqwpa://im/chat?chat_type=wpa&uin=" + qqNumber + "&version=1";
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
             AppApplication.getContext().startActivity(intent);
@@ -48,6 +53,7 @@ public class AppUtils {
 
     /**
      * 跳转到系统辅助功能设置页面.<br>
+     *
      * @param context
      */
     public static boolean gotoAccessibilitySettings(Context context) {
@@ -64,8 +70,15 @@ public class AppUtils {
         return isOk;
     }
 
+
+    public static boolean isInLockScreen() {
+        KeyguardManager keyguardManager = (KeyguardManager) AppApplication.getContext().getSystemService(KEYGUARD_SERVICE);
+        return keyguardManager.inKeyguardRestrictedInputMode();
+    }
+
     /**
      * 是否支持使用辅助服务.<br>
+     *
      * @return
      */
     public static boolean isSupportBoostAccessibilityService() {

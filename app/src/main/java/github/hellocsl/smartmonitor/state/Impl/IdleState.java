@@ -1,5 +1,6 @@
 package github.hellocsl.smartmonitor.state.Impl;
 
+import android.os.Build;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -10,8 +11,8 @@ import github.hellocsl.smartmonitor.state.MonitorState;
 import github.hellocsl.smartmonitor.utils.AppUtils;
 import github.hellocsl.smartmonitor.utils.Constant;
 import github.hellocsl.smartmonitor.utils.Privacy;
-import github.hellocsl.smartmonitor.utils.RootCmd;
 import github.hellocsl.smartmonitor.utils.TelephoneHelper;
+import github.hellocsl.smartmonitor.utils.UnLockUtils;
 
 /**
  * 初始状态，等待来电处理
@@ -36,12 +37,15 @@ public class IdleState extends MonitorState {
         if (BuildConfig.DEBUG) {
             Log.v(TAG, "handle:");
         }
+
         if (isCallComing(nodeInfo)) {
             if (BuildConfig.DEBUG) {
                 Log.v(TAG, "handle: call");
             }
             handOffCall(nodeInfo);
-            unlockScreen(nodeInfo);
+            if (AppUtils.isInLockScreen()) {
+                unlockScreen(nodeInfo);
+            }
 //            AppUtils.acquireTimedWakeLock(5000, "SmartMonitor");
             AppUtils.openQQChat(Privacy.QQ_NUMBER);
             mContextService.setState(new QQChatState(mContextService));
@@ -50,6 +54,7 @@ public class IdleState extends MonitorState {
 
     /**
      * 挂断电话
+     *
      * @param nodeInfo
      */
     private void handOffCall(AccessibilityNodeInfo nodeInfo) {
@@ -58,17 +63,11 @@ public class IdleState extends MonitorState {
 
     /**
      * 解锁魅族
+     *
      * @param nodeInfo
      */
     private void unlockScreen(AccessibilityNodeInfo nodeInfo) {
-        RootCmd.execRootCmd("input keyevent 3");
-        RootCmd.execRootCmd("input swipe 655 1774 655 874");
-        RootCmd.execRootCmd("sleep 1 && input text 0");
-        RootCmd.execRootCmd("sleep 0.1 && input text 0");
-        RootCmd.execRootCmd("sleep 0.1 && input text 0");
-        RootCmd.execRootCmd("sleep 0.1 && input text 0");
-        RootCmd.execRootCmd("sleep 0.1 && input keyevent 66");
-//        RootCmd.execRootCmd(UNLOCK);
+        UnLockUtils.unlockMyNexus5();
     }
 
 
@@ -80,11 +79,17 @@ public class IdleState extends MonitorState {
         if (BuildConfig.DEBUG) {
             Log.v(TAG, "isCallComing: " + nodeInfo.getPackageName());
         }
-//        if (Constant.MEIZU_IN_CALL_PKG.equals(nodeInfo.getPackageName())
-//                && !AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText("右滑接听，左滑挂断"))
-//                && !AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText(Constant.MONITOR_TAG))) {
-        if (!AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText(Constant.MONITOR_TAG))) {
-            return true;
+        if (Build.MODEL.equals(Constant.N5_MODEL)) {
+            if (!AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText(Constant.MONITOR_TAG))
+                    && !AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText("来电"))) {
+                return true;
+            }
+        } else if (Build.DEVICE.contains(Constant.MX_MODEL)) {
+            if (Constant.MEIZU_IN_CALL_PKG.equals(nodeInfo.getPackageName())
+                    && !AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText("右滑接听，左滑挂断"))
+                    && !AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText(Constant.MONITOR_TAG))) {
+                return true;
+            }
         }
         return false;
     }

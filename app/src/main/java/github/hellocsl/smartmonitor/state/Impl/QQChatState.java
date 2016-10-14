@@ -50,6 +50,7 @@ public class QQChatState extends MonitorState {
 
     /**
      * 点击,打开视频聊天面板
+     *
      * @param nodeInfo
      * @return 是否找到
      */
