@@ -67,7 +67,7 @@ public class IdleState extends MonitorState {
      * @param nodeInfo
      */
     private void unlockScreen(AccessibilityNodeInfo nodeInfo) {
-        UnLockUtils.unlockMyNexus5();
+        UnLockUtils.unlock();
     }
 
 
