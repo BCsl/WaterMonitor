@@ -77,14 +77,14 @@ public class IdleState extends MonitorState {
      */
     private boolean isCallComing(AccessibilityNodeInfo nodeInfo) {
         if (BuildConfig.DEBUG) {
-            Log.v(TAG, "isCallComing: " + nodeInfo.getPackageName());
+            Log.v(TAG, "isCallComing pkg: " + nodeInfo.getPackageName());
         }
         if (Build.MODEL.equals(Constant.N5_MODEL)) {
             if (!AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText(Constant.MONITOR_TAG))
                     && !AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText("来电"))) {
                 return true;
             }
-        } else if (Build.DEVICE.contains(Constant.MX_MODEL)) {
+        } else if (Build.DEVICE.toLowerCase().contains(Constant.MX_MODEL)) {
             if (Constant.MEIZU_IN_CALL_PKG.equals(nodeInfo.getPackageName())
                     && !AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText("右滑接听，左滑挂断"))
                     && !AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText(Constant.MONITOR_TAG))) {

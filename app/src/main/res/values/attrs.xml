@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SettingItem">
+        <attr name="settingTitle" format="reference"/>
+        <attr name="settingDesc" format="reference"/>
+        <attr name="style" format="enum">
+            <enum name="checkbox" value="0"></enum>
+        </attr>
+        <attr name="check" format="boolean"/>
+        <attr name="settingIcon" format="reference"/>
+    </declare-styleable>
+</resources>

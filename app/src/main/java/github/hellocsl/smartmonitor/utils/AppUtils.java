@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.List;
@@ -27,7 +28,6 @@ public class AppUtils {
 
     /**
      * 打开QQ聊天界面
-     *
      * @param qqNumber
      */
     public static void openQQChat(String qqNumber) {
@@ -53,7 +53,6 @@ public class AppUtils {
 
     /**
      * 跳转到系统辅助功能设置页面.<br>
-     *
      * @param context
      */
     public static boolean gotoAccessibilitySettings(Context context) {
@@ -78,7 +77,6 @@ public class AppUtils {
 
     /**
      * 是否支持使用辅助服务.<br>
-     *
      * @return
      */
     public static boolean isSupportBoostAccessibilityService() {
@@ -88,5 +86,30 @@ public class AppUtils {
 
     public static boolean isListEmpty(List list) {
         return list == null || list.isEmpty();
+    }
+
+
+    public static boolean checkAccessibility(String service) {
+        int ok = 0;
+        try {
+            ok = Settings.Secure.getInt(AppApplication.getContext().getContentResolver(), Settings.Secure.ACCESSIBILITY_ENABLED);
+        } catch (Settings.SettingNotFoundException e) {
+        }
+
+        TextUtils.SimpleStringSplitter ms = new TextUtils.SimpleStringSplitter(':');
+        if (ok == 1) {
+            String settingValue = Settings.Secure.getString(AppApplication.getContext().getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+            if (settingValue != null) {
+                ms.setString(settingValue);
+                while (ms.hasNext()) {
+                    String accessibilityService = ms.next();
+                    if (accessibilityService.equalsIgnoreCase(service)) {
+                        return true;
+                    }
+
+                }
+            }
+        }
+        return false;
     }
 }

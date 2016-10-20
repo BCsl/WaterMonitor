@@ -5,10 +5,15 @@ package github.hellocsl.smartmonitor.utils;
  */
 
 public interface Constant {
+    String ACCESSIBILITY_SERVICE="github.hellocsl.smartmonitor/github.hellocsl.smartmonitor.VideoAccessibilityService";
 
     String QQ_PKG = "com.tencent.mobileqq";
 
     String N5_HOME_SCREEN = "com.google.android.googlequicksearchbox";
+
+    String MX_HOME_SCREEN = "com.meizu.flyme.launcher";
+
+    String SYSTEM_UI = "com.android.systemui";
 
     String DIALER = "com.google.android.dialer";
 
@@ -20,7 +25,9 @@ public interface Constant {
     String N5_MODEL = "Nexus 5";
 
     //MEIZU
-    String MX_MODEL = "MX";
+    String MX_MODEL = "mx";
+
+
 
 
 }

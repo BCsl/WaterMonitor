@@ -1,18 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="github.hellocsl.smartmonitor.MainActivity">
+    tools:context="github.hellocsl.smartmonitor.ui.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"/>
-</RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divide"></View>
+
+    <github.hellocsl.smartmonitor.ui.widget.SettingItem
+        android:id="@+id/setting_root"
+        android:layout_width="match_parent"
+        android:layout_height="56dip"
+        app:settingDesc="@string/root_access_desc"
+        app:settingTitle="@string/root_access"
+        >
+    </github.hellocsl.smartmonitor.ui.widget.SettingItem>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divide"></View>
+
+    <github.hellocsl.smartmonitor.ui.widget.SettingItem
+        android:id="@+id/setting_start_service"
+        android:layout_width="match_parent"
+        android:layout_height="56dip"
+        app:settingTitle="@string/start_monitor_service"
+        >
+    </github.hellocsl.smartmonitor.ui.widget.SettingItem>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divide"></View>
+</LinearLayout>

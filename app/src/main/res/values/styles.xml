@@ -6,6 +6,32 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/ripple</item> 
+    </style>
+
+
+    <style name="TextTitle">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextTitle.Light">
+        <item name="android:textColor">@color/primary_text_light</item>
+    </style>
+
+    <style name="TextTitle.Dark">
+        <item name="android:textColor">@color/primary_text_dark</item>
+    </style>
+
+    <style name="TextDesc">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextDesc.Light">
+        <item name="android:textColor">@color/secondary_text_light</item>
+    </style>
+
+    <style name="TextDesc.Dark">
+        <item name="android:textColor">@color/secondary_text_dark</item>
     </style>
 
 </resources>
