@@ -5,7 +5,7 @@ package github.hellocsl.smartmonitor.utils;
  */
 
 public interface Constant {
-    String ACCESSIBILITY_SERVICE="github.hellocsl.smartmonitor/github.hellocsl.smartmonitor.VideoAccessibilityService";
+    String ACCESSIBILITY_SERVICE = "github.hellocsl.smartmonitor/github.hellocsl.smartmonitor.VideoAccessibilityService";
 
     String QQ_PKG = "com.tencent.mobileqq";
 
@@ -17,7 +17,9 @@ public interface Constant {
 
     String DIALER = "com.google.android.dialer";
 
-    String MONITOR_TAG = "SmartMonitor";
+    String MONITOR_TAG = "WaterMonitor";
+
+    String MONITOR_CMD = "1";
 
     String MEIZU_IN_CALL_PKG = "com.android.incallui";
 
@@ -26,8 +28,6 @@ public interface Constant {
 
     //MEIZU
     String MX_MODEL = "mx";
-
-
 
 
 }
