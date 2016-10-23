@@ -1,0 +1,8 @@
+input tap 450 450
+input swipe 655 1774 655 874
+sleep 1 && input text 1
+sleep 0.1 && input text 2
+sleep 0.1 && input text 3
+sleep 0.1 && input text 4
+sleep 0.1 && input keyevent 66
+quit

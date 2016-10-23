@@ -37,7 +37,10 @@ public class StartVideoState extends MonitorState {
             Log.v(TAG, "handle:");
         }
         if (startVideoChat(nodeInfo)) {
-            mContextService.setState(new IdleState(mContextService));
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "handle: start suc");
+            }
+            mContextService.setState(new EndingSate(mContextService));
         } else {
             mContextService.setState(new QQChatState(mContextService));
         }

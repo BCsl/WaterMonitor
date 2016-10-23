@@ -57,17 +57,18 @@ public class IdleState extends MonitorState {
                     Log.d(TAG, "handle: unlock screen");
                 }
                 //back press
-                RootCmd.execRootCmd("sleep 0.1 && input keyevent " + KeyEvent.KEYCODE_BACK);
+                RootCmd.execRootCmd("input keyevent " + KeyEvent.KEYCODE_BACK);
+                RootCmd.execRootCmd("sleep 0.1 && input keyevent " + KeyEvent.KEYCODE_HOME);
                 unlockScreen(nodeInfo);
             }
             final String qqNumber = retrieveQQNumber(nodeInfo, accessibilityEvent);
+            mContextService.setState(new QQChatState(mContextService));
             AppApplication.postDelay(new Runnable() {
                 @Override
                 public void run() {
                     AppUtils.openQQChat(qqNumber);
                 }
             }, 1000);
-            mContextService.setState(new QQChatState(mContextService));
         }
     }
 

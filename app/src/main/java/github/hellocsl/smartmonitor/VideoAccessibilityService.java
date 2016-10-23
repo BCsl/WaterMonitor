@@ -3,7 +3,10 @@ package github.hellocsl.smartmonitor;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -37,6 +40,7 @@ public class VideoAccessibilityService extends AccessibilityService implements I
     @Override
     protected void onServiceConnected() {
         super.onServiceConnected();
+        registerScreenReceiver();
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "onServiceConnected: ");
         }
@@ -55,8 +59,6 @@ public class VideoAccessibilityService extends AccessibilityService implements I
 
         this.setServiceInfo(info);
         setState(new IdleState(this));
-        // FIXME: 16-10-9 for qqChat
-//        setState(new QQChatState(this));
     }
 
     @Override
@@ -64,6 +66,7 @@ public class VideoAccessibilityService extends AccessibilityService implements I
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "onUnbind: ");
         }
+        unRegisterScreenReceiver();
         sIsEnable = false;
         return super.onUnbind(intent);
     }
@@ -91,4 +94,43 @@ public class VideoAccessibilityService extends AccessibilityService implements I
     public AccessibilityNodeInfo getWindowNode() {
         return getRootInActiveWindow();
     }
+
+
+    private ScreenReceiver mScreenReceiver;
+
+    private void registerScreenReceiver() {
+        if (mScreenReceiver == null) {
+            mScreenReceiver = new ScreenReceiver();
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+            registerReceiver(mScreenReceiver, intentFilter);
+        }
+    }
+
+    private void unRegisterScreenReceiver() {
+        if (mScreenReceiver != null) {
+            unregisterReceiver(mScreenReceiver);
+        }
+    }
+
+    /**
+     * @author chensuilun
+     */
+    public class ScreenReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (intent.getAction()) {
+                case Intent.ACTION_SCREEN_OFF:
+                    if (BuildConfig.DEBUG) {
+                        Log.d(TAG, "onReceive: Screen off");
+                    }
+                    setState(new IdleState(VideoAccessibilityService.this));
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
 }
