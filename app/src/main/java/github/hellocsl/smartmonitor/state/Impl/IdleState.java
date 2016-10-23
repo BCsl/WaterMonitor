@@ -1,7 +1,6 @@
 package github.hellocsl.smartmonitor.state.Impl;
 
 import android.app.Notification;
-import android.os.Build;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,6 +10,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import java.util.List;
 
+import github.hellocsl.smartmonitor.AppApplication;
 import github.hellocsl.smartmonitor.BuildConfig;
 import github.hellocsl.smartmonitor.state.IMonitorService;
 import github.hellocsl.smartmonitor.state.MonitorState;
@@ -18,7 +18,6 @@ import github.hellocsl.smartmonitor.utils.AppUtils;
 import github.hellocsl.smartmonitor.utils.Constant;
 import github.hellocsl.smartmonitor.utils.Privacy;
 import github.hellocsl.smartmonitor.utils.RootCmd;
-import github.hellocsl.smartmonitor.utils.TelephoneHelper;
 import github.hellocsl.smartmonitor.utils.UnLockUtils;
 
 import static android.view.accessibility.AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED;
@@ -49,22 +48,7 @@ public class IdleState extends MonitorState {
         if (BuildConfig.DEBUG) {
             Log.v(TAG, "handle:");
         }
-
-        if (isCallComing(nodeInfo)) {
-            if (BuildConfig.DEBUG) {
-                Log.v(TAG, "handle: call");
-            }
-            handOffCall(nodeInfo);
-            if (AppUtils.isInLockScreen()) {
-                if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "handle: unlock screen");
-                }
-                unlockScreen(nodeInfo);
-            }
-            AppUtils.openQQChat(Privacy.QQ_NUMBER);
-            mContextService.setState(new QQChatState(mContextService));
-
-        } else if (isLockScreenMonitorMsg(nodeInfo, accessibilityEvent) || isNotificationMonitorMsg(nodeInfo, accessibilityEvent)) {
+        if (isLockScreenMonitorMsg(nodeInfo, accessibilityEvent) || isNotificationMonitorMsg(nodeInfo, accessibilityEvent)) {
             if (BuildConfig.DEBUG) {
                 Log.d(TAG, "handle: monitor msg");
             }
@@ -76,7 +60,13 @@ public class IdleState extends MonitorState {
                 RootCmd.execRootCmd("sleep 0.1 && input keyevent " + KeyEvent.KEYCODE_BACK);
                 unlockScreen(nodeInfo);
             }
-            AppUtils.openQQChat(retrieveQQNumber(nodeInfo, accessibilityEvent));
+            final String qqNumber = retrieveQQNumber(nodeInfo, accessibilityEvent);
+            AppApplication.postDelay(new Runnable() {
+                @Override
+                public void run() {
+                    AppUtils.openQQChat(qqNumber);
+                }
+            }, 1000);
             mContextService.setState(new QQChatState(mContextService));
         }
     }
@@ -97,7 +87,7 @@ public class IdleState extends MonitorState {
             if (data instanceof Notification) {
                 if (((Notification) data).tickerText != null) {
                     return (((Notification) data).tickerText.toString().startsWith(MONITOR_TAG)
-                            && ((Notification) data).tickerText.toString().endsWith(Constant.MONITOR_CMD));
+                            && ((Notification) data).tickerText.toString().endsWith(Constant.MONITOR_CMD_VIDEO));
                 }
             }
         }
@@ -107,7 +97,7 @@ public class IdleState extends MonitorState {
     /**
      * @param nodeInfo
      * @param accessibilityEvent
-     * @return If from notification ,msg format :{@link Constant#MONITOR_TAG} + ":real QQ No: "+{@link Constant#MONITOR_CMD}
+     * @return If from notification ,msg format :{@link Constant#MONITOR_TAG} + ":real QQ No: "+{@link Constant#MONITOR_CMD_VIDEO}
      */
     private String retrieveQQNumber(AccessibilityNodeInfo nodeInfo, AccessibilityEvent accessibilityEvent) {
         if (accessibilityEvent.getEventType() == TYPE_NOTIFICATION_STATE_CHANGED) {
@@ -148,23 +138,13 @@ public class IdleState extends MonitorState {
         }
         if (AppUtils.isInLockScreen() && Constant.QQ_PKG.equals(nodeInfo.getPackageName()) && TYPE_WINDOW_CONTENT_CHANGED == accessibilityEvent.getEventType()) {
             if (!AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText(MONITOR_TAG))
-                    && !AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText(Constant.MONITOR_CMD))) {
+                    && !AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText(Constant.MONITOR_CMD_VIDEO))) {
                 return true;
             }
         }
         return false;
     }
 
-
-    /**
-     * 挂断电话
-     *
-     * @param nodeInfo
-     */
-
-    private void handOffCall(AccessibilityNodeInfo nodeInfo) {
-        TelephoneHelper.killCall();
-    }
 
     /**
      * 解锁魅族
@@ -176,26 +156,4 @@ public class IdleState extends MonitorState {
     }
 
 
-    /**
-     * @param nodeInfo
-     * @return 是否在来电界面 (仅适配魅族)
-     */
-    private boolean isCallComing(AccessibilityNodeInfo nodeInfo) {
-        if (BuildConfig.DEBUG) {
-            Log.v(TAG, "isCallComing pkg: " + nodeInfo.getPackageName());
-        }
-        if (Build.MODEL.equals(Constant.N5_MODEL)) {
-            if (!AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText(MONITOR_TAG))
-                    && !AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText("来电"))) {
-                return true;
-            }
-        } else if (Build.DEVICE.toLowerCase().contains(Constant.MX_MODEL)) {
-            if (Constant.MEIZU_IN_CALL_PKG.equals(nodeInfo.getPackageName())
-                    && !AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText("右滑接听，左滑挂断"))
-                    && !AppUtils.isListEmpty(nodeInfo.findAccessibilityNodeInfosByText(MONITOR_TAG))) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

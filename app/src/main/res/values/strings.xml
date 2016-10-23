@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SmartMonitor</string>
+    <string name="app_name">WaterMonitor</string>
     <string name="start_monitor_service">开启服务</string>
     <string name="root_access">Root状态</string>
     <string name="root_access_desc">需要获取Root权限来解锁手机屏幕</string>

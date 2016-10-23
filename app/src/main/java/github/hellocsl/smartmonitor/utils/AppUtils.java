@@ -15,6 +15,7 @@ import android.util.Log;
 import java.util.List;
 
 import github.hellocsl.smartmonitor.AppApplication;
+import github.hellocsl.smartmonitor.BuildConfig;
 
 import static android.content.Context.KEYGUARD_SERVICE;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
@@ -31,6 +32,9 @@ public class AppUtils {
      * @param qqNumber
      */
     public static void openQQChat(String qqNumber) {
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "openQQChat() called with: " + "qqNumber = [" + qqNumber + "]");
+        }
         String url = "mqqwpa://im/chat?chat_type=wpa&uin=" + qqNumber + "&version=1";
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -9,17 +9,13 @@ public interface Constant {
 
     String QQ_PKG = "com.tencent.mobileqq";
 
-    String N5_HOME_SCREEN = "com.google.android.googlequicksearchbox";
-
-    String MX_HOME_SCREEN = "com.meizu.flyme.launcher";
-
-    String SYSTEM_UI = "com.android.systemui";
-
     String DIALER = "com.google.android.dialer";
 
     String MONITOR_TAG = "WaterMonitor";
 
-    String MONITOR_CMD = "1";
+    String MONITOR_CMD_VIDEO = "1";
+
+    String MONITOR_CMD_RESET = "110";
 
     String MEIZU_IN_CALL_PKG = "com.android.incallui";
 
