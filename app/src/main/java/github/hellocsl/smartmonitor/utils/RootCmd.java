@@ -12,7 +12,7 @@ import java.io.IOException;
 public final class RootCmd {
 
     private static final String TAG = "RootCmd";
-    private static boolean sHaveRoot = false;
+    public static boolean sHaveRoot = false;
 
     // 判断机器Android是否已经root，即是否获取root权限
     public static boolean haveRoot() {
@@ -23,6 +23,7 @@ public final class RootCmd {
                 sHaveRoot = true;
             } else {
                 Log.i(TAG, "not root!");
+                sHaveRoot = false;
             }
         } else {
             Log.i(TAG, "sHaveRoot = true, have root!");
@@ -37,7 +38,7 @@ public final class RootCmd {
         DataInputStream dis = null;
 
         try {
-            Process p = Runtime.getRuntime().exec("su");// 经过Root处理的android系统即有su命令
+            Process p = Runtime.getRuntime().exec("su");    // 经过Root处理的android系统即有su命令
             dos = new DataOutputStream(p.getOutputStream());
             dis = new DataInputStream(p.getInputStream());
 
@@ -91,6 +92,8 @@ public final class RootCmd {
             result = p.exitValue();
         } catch (Exception e) {
             e.printStackTrace();
+            result = -1;
+            return result;
         } finally {
             if (dos != null) {
                 try {

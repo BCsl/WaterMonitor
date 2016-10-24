@@ -12,6 +12,7 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.File;
 import java.util.List;
 
 import github.hellocsl.smartmonitor.AppApplication;
@@ -29,6 +30,7 @@ public class AppUtils {
 
     /**
      * 打开QQ聊天界面
+     *
      * @param qqNumber
      */
     public static void openQQChat(String qqNumber) {
@@ -57,6 +59,7 @@ public class AppUtils {
 
     /**
      * 跳转到系统辅助功能设置页面.<br>
+     *
      * @param context
      */
     public static boolean gotoAccessibilitySettings(Context context) {
@@ -81,6 +84,7 @@ public class AppUtils {
 
     /**
      * 是否支持使用辅助服务.<br>
+     *
      * @return
      */
     public static boolean isSupportBoostAccessibilityService() {
@@ -115,5 +119,26 @@ public class AppUtils {
             }
         }
         return false;
+    }
+
+    //See https://github.com/Stericson/RootTools
+    public static boolean isRooted() {
+        return findBinary("su");
+    }
+
+
+    private static boolean findBinary(String binaryName) {
+        boolean found = false;
+        if (!found) {
+            String[] places = {"/sbin/", "/system/bin/", "/system/xbin/", "/data/local/xbin/",
+                    "/data/local/bin/", "/system/sd/xbin/", "/system/bin/failsafe/", "/data/local/"};
+            for (String where : places) {
+                if (new File(where + binaryName).exists()) {
+                    found = true;
+                    break;
+                }
+            }
+        }
+        return found;
     }
 }

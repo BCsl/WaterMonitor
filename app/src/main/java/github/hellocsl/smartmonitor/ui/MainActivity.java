@@ -2,12 +2,13 @@ package github.hellocsl.smartmonitor.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import github.hellocsl.smartmonitor.AppApplication;
 import github.hellocsl.smartmonitor.BuildConfig;
 import github.hellocsl.smartmonitor.R;
 import github.hellocsl.smartmonitor.ui.widget.SettingItem;
@@ -27,13 +28,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-//        AppUtils.openQQChat(Privacy.QQ_NUMBER);
-        if (!TextUtils.isEmpty(RootCmd.execRootCmd("echo hello"))) {
-            mSettingRoot.setCheck(true);
-        } else {
+        if (!AppUtils.isRooted()) {
+            Toast.makeText(AppApplication.getContext(), R.string.can_not_run_without_root, Toast.LENGTH_SHORT).show();
             finish();
         }
+        mSettingRoot.setCheck(RootCmd.haveRoot());
     }
+
+    private boolean mProtected;
 
     @Override
     protected void onResume() {
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "onResume: ");
         }
+        mSettingRoot.setCheck(RootCmd.sHaveRoot);
         mSettingService.setCheck(AppUtils.checkAccessibility(Constant.ACCESSIBILITY_SERVICE));
 
     }
@@ -54,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.setting_root)
     public void onClickRoot() {
-
+        if (!mSettingRoot.isCheck()) {
+            mSettingRoot.setCheck(RootCmd.haveRoot());
+        }
     }
 }

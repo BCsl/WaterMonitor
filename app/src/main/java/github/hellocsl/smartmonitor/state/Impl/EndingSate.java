@@ -43,12 +43,18 @@ public class EndingSate extends MonitorState {
                 if (BuildConfig.DEBUG) {
                     Log.d(TAG, "handle: close screen");
                 }
+                //熄屏,等待下次命令
                 RootCmd.execRootCmd("sleep 0.1 && input keyevent " + KeyEvent.KEYCODE_POWER);
             }
             mContextService.setState(new IdleState(mContextService));
         }
     }
 
+    /**
+     * @param nodeInfo
+     * @param accessibilityEvent
+     * @return 消息列表的最后一个Item是否为视频通话结束或取消
+     */
     private boolean isVideoChatEnded(AccessibilityNodeInfo nodeInfo, AccessibilityEvent accessibilityEvent) {
         String pkg = accessibilityEvent.getPackageName().toString();
         List<AccessibilityNodeInfo> listNode = nodeInfo.findAccessibilityNodeInfosByViewId("com.tencent.mobileqq:id/listView1");
@@ -60,7 +66,7 @@ public class EndingSate extends MonitorState {
                     tempNode = tempNode.getChild(tempNode.getChildCount() - 1);
                     if (tempNode != null && tempNode.getClassName().equals(RelativeLayout.class.getName())) {
                         return !AppUtils.isListEmpty(tempNode.findAccessibilityNodeInfosByText("拒绝"))
-                                || !AppUtils.isListEmpty(tempNode.findAccessibilityNodeInfosByText("通话时间"))
+                                || !AppUtils.isListEmpty(tempNode.findAccessibilityNodeInfosByText("通话时长"))
                                 || !AppUtils.isListEmpty(tempNode.findAccessibilityNodeInfosByText("取消"));
                     }
                 }
