@@ -20,7 +20,6 @@
 
 ### 效果
 
-![1]
+![1](http://upload-images.jianshu.io/upload_images/1097134-754ad45c2dbc4870.gif?imageMogr2/auto-orient/strip)
 
 
-[1]: http://upload-images.jianshu.io/upload_images/1097134-754ad45c2dbc4870.gif?imageMogr2/auto-orient/strip
