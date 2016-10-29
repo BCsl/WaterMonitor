@@ -51,7 +51,7 @@ public class VideoAccessibilityService extends AccessibilityService implements I
         // If you only want this service to work with specific applications, set their
         // package names here.  Otherwise, when the service is activated, it will listen
         // to events from all applications.
-        info.packageNames = new String[]{Constant.QQ_PKG, Constant.DIALER, Constant.MEIZU_IN_CALL_PKG};
+        info.packageNames = new String[]{Constant.QQ_PKG};
 
         info.feedbackType = AccessibilityServiceInfo.FEEDBACK_SPOKEN;
 //        info.flags = AccessibilityServiceInfo.DEFAULT;
