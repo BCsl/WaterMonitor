@@ -1,6 +1,6 @@
 # WaterMonitor
 
-使用系统的辅助权限功能来实现~~监控电话打入~~监听特定QQ联系人的命令，自动解锁屏幕（如果有的话），打开QQ特定的联系人并打开视频功能，主要目的是为了满足自己上班有时候监控下家里的🐶子有没有拆家
+使用系统的辅助权限功能来实现~~监控电话打入~~监听特定QQ联系人的命令，自动解锁屏幕（如果有的话），打开QQ特定的联系人并打开视频功能，主要目的是为了满足自己上班有时候监控下家里的🐶子有没有拆家，详情请见[简书](http://www.jianshu.com/p/d91e2e015718)
 
 ## 使用
 
@@ -23,4 +23,4 @@
 ![1]
 
 
-[1]: ./screenshot/Monitor.gif
+[1]: http://upload-images.jianshu.io/upload_images/1097134-754ad45c2dbc4870.gif?imageMogr2/auto-orient/strip
