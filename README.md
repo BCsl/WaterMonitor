@@ -16,4 +16,4 @@
 
 需要Root权限，因为需要进行屏幕解锁，而使用辅助权限也很难达到目的，主要使用到【adb input】命令来模拟滑动和点击，[详情看这里](http://doc.okbase.net/travellife/archive/113675.html)
 
-不同的手机的屏幕解锁密码或者方式不一样，所以需要自己来写脚本，脚本名字为**MonitorUnlock.txt**并放到Sd卡根目录，以`quit`为结尾，[参考我的](https://github.com/BCsl/WaterMonitor/script/MonitorUnlock.txt)
+不同的手机的屏幕解锁密码或者方式不一样，所以需要自己来写脚本，脚本名字为**MonitorUnlock.txt**并放到Sd卡根目录，以`quit`为结尾，[参考我的](https://github.com/BCsl/WaterMonitor/blob/master/script/MonitorUnlock.txt)
