@@ -18,13 +18,13 @@
 
 ### Root和屏幕解锁
 
-需要Root权限，因为需要进行屏幕解锁，而使用辅助权限也很难达到目的，主要使用到【adb input】命令来模拟滑动和点击，[详情看这里](http://doc.okbase.net/travellife/archive/113675.html)
+需要Root权限，因为需要进行屏幕解锁，而使用辅助权限也很难达到目的，主要使用到`adb input`命令来模拟滑动和点击，[详情看这里](http://doc.okbase.net/travellife/archive/113675.html)
 
 不同的手机的屏幕解锁密码或者方式不一样，所以需要自己来写脚本，脚本名字为**MonitorUnlock.txt**并放到Sd卡根目录，以`quit`行为结尾，[参考我的](https://github.com/BCsl/WaterMonitor/blob/master/script/MonitorUnlock.txt)
 
-**详情请见[简书](http://www.jianshu.com/p/d91e2e015718)**
+**了解更多请见[简书](http://www.jianshu.com/p/d91e2e015718)**
 
-### 效果
+## 效果
 
 ![动图](http://diycode.b0.upaiyun.com/photo/2016/51eac4f28e9f56db06147ee9e03362e7.gif)
 
