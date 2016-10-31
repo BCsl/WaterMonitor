@@ -4,14 +4,13 @@
 
 详情请见[简书](http://www.jianshu.com/p/d91e2e015718)
 
-## 注意
-`import github.hellocsl.smartmonitor.utils.Privacy;`这个没类只是再记录了默认的QQ帐号的常量，所以没上传，可以自己新建一个
+## 编译和运行
 
-## 使用
+- 0.Server端手机登录QQ，用于监控，Client端的QQ添加Server端的QQ为好友，并在Server端的QQ面板中修改Client端的QQ账号备注格式为`WaterMonitor:Client端QQ`，例如QQ号码是`123456`，那么备注改成`WaterMonitor:12345`，那么当Client发送命令`1`到Server端，Server将会打开和QQ号码12345的视频电话，支持多个不同的Client
 
-首先你得需要两个QQ，还有两台Android📱（作为一个Android开发的，总会有几台更新换代后留下的备用手机，何不充分利用起来，酱紫又可以省下买监控摄像头的💰了）
+- 1.`import github.hellocsl.smartmonitor.utils.Privacy;`这个没类只是再记录了自己默认的QQ帐号的常量，所以没上传，可以自己新建一个
 
-监控系统分位被监控方（你放在家里作为监控的那台📱）和监控方，作为被监控方，修改监控方QQ联系人的备注格式为**"WaterMonitor:真实的QQ号码"** ，这样当收到监控方的命令，现在待定是`1`，被监控方可以根据这个联系人的备注，获取到需要进行视频的QQ联系人号码，然后发起视频聊天，监控方只需要等待并接收即可
+- 2.解锁脚本需要自己重新配置（如何配置?见**Root和屏幕解锁**），不同手机解锁方式和密码不一样，命名为**MonitorUnlock.txt**，并放到Sd卡根目录，以`quit`行为结尾
 
 ## 实现
 
@@ -21,10 +20,14 @@
 
 需要Root权限，因为需要进行屏幕解锁，而使用辅助权限也很难达到目的，主要使用到【adb input】命令来模拟滑动和点击，[详情看这里](http://doc.okbase.net/travellife/archive/113675.html)
 
-不同的手机的屏幕解锁密码或者方式不一样，所以需要自己来写脚本，脚本名字为**MonitorUnlock.txt**并放到Sd卡根目录，以`quit`为结尾，[参考我的](https://github.com/BCsl/WaterMonitor/blob/master/script/MonitorUnlock.txt)
+不同的手机的屏幕解锁密码或者方式不一样，所以需要自己来写脚本，脚本名字为**MonitorUnlock.txt**并放到Sd卡根目录，以`quit`行为结尾，[参考我的](https://github.com/BCsl/WaterMonitor/blob/master/script/MonitorUnlock.txt)
+
+**详情请见[简书](http://www.jianshu.com/p/d91e2e015718)**
 
 ### 效果
 
-![1](http://upload-images.jianshu.io/upload_images/1097134-754ad45c2dbc4870.gif?imageMogr2/auto-orient/strip)
+![动图](http://diycode.b0.upaiyun.com/photo/2016/51eac4f28e9f56db06147ee9e03362e7.gif)
 
+![装置](http://diycode.b0.upaiyun.com/photo/2016/d5e267d159cee2c56979a362a4b9842f.png)
 
+![监听](http://diycode.b0.upaiyun.com/photo/2016/243a7f8d06d9f7b6558fd6c80e21901d.png)
