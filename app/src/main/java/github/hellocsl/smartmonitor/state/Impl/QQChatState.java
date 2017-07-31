@@ -55,15 +55,16 @@ public class QQChatState extends MonitorState {
      * @return 是否找到
      */
     private boolean preStartVideoChat(AccessibilityNodeInfo nodeInfo) {
-        //并不能直接通过ID或者Text找到+号按钮，应该是动态添加的，先找到输入库，通过输入框找到相同的parent，+号的Index在倒数第二的位置上
+        //并不能直接通过ID或者Text找到+号按钮，应该是动态添加的，先找到输入框，通过输入框找到相同的parent，+号的Index在倒数第二的位置上
         List<AccessibilityNodeInfo> inputNodes = nodeInfo.findAccessibilityNodeInfosByViewId("com.tencent.mobileqq:id/inputBar");
         if (!AppUtils.isListEmpty(inputNodes)) {
             AccessibilityNodeInfo node = inputNodes.get(0).getParent();
-            node = node.getChild(Math.max(0, node.getChildCount() - 2));
+            node = node.getChild(Math.max(0, node.getChildCount() - 3));    //这里有点奇怪，结果通过调试得出，但检测界面元素的时候不是这个结果
             if (node.getClassName().toString().contains(ImageView.class.getName())) {
                 node.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                 return true;
             }
+            Log.e(TAG, "preStartVideoChat: cannot find + node error!");
         }
         return false;
     }
